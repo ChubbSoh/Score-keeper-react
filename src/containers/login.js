@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Form, FormGroup } from "reactstrap";
+import axios from 'axios';
 
 
 export default class Login extends Component {
@@ -37,6 +38,8 @@ export default class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.validateForm();
+        axios.post('localhost:5000/api/v1/login', )
+        .then(result => console.log(result.data));
     }
 
     render() {

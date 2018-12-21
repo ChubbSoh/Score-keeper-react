@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Input, Form, FormGroup } from "reactstrap";
-
+import axios from 'axios';
 
 export default class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
+            name: "",
             email: "",
             password: "",
             emailError: "",
@@ -22,13 +21,11 @@ export default class Signup extends Component {
     }
 
     validateForm = () => {
-        if (this.state.firstName.trim().length > 0 &&
-            this.state.lastName.trim().length > 0 &&
+        if (this.state.name.trim().length > 0 &&
             /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email) &&
             this.state.password.trim().length > 6) {
             this.setState({
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
+                name: this.state.name,
                 email: this.state.email,
                 password: this.state.password,
             })
@@ -43,12 +40,24 @@ export default class Signup extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.validateForm();
+        const user = {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        };
+        var config = { headers: {  
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'}
+        };
+        console.log(user)
+        axios.post('http://localhost:5000/api/v1/signup', {user}, config )
+        .then(result => console.log(result));
+        
     }
 
     render() {
-        const { firstName, lastName, email, password } = this.state;
-        const enabled = firstName.trim().length > 0
-            && lastName.trim().length > 0
+        const { name, email, password } = this.state;
+        const enabled = name.trim().length > 0
             && email.trim().length > 0
             && password.trim().length > 0;
         return (
@@ -58,20 +67,10 @@ export default class Signup extends Component {
                         <FormGroup>
                             <Input
                                 type="text"
-                                name="firstName"
-                                id="firstName"
-                                placeholder="first name"
-                                value={this.props.firstName}
-                                onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                placeholder="last name"
-                                value={this.props.lastName}
+                                name="Name"
+                                id="name"
+                                placeholder="Name"
+                                value={this.props.name}
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
