@@ -8,27 +8,20 @@ import BottomNav from '../components/bottom-nav';
 
 const GameContainer = styled.div`
     background: #070B2E;
-    padding: 80px 40px 0 40px;
+    padding: 70px 10px 0 10px;
     height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    width: 100%;    
     overflow-y: scroll;
 `;
 
 const ImgContainer = styled.div`
     overflow: hidden;
     width: 150px;
-    height: 150px;  
-`;
-
-const GameCard = styled.div`
-    width: 150px;
     height: 150px;
     background: #373D65;
-    border-radius: 5px;
-    margin-bottom: 25px;
+    border-radius: 5px; 
+    margin: 0 10px 20px 10px;
+    display: inline-block;
 `;
 
 const AddNewGame = styled.button`
@@ -79,7 +72,11 @@ export default class Homepage extends Component {
                 {sideNav}
                 {backdrop}
                 <GameContainer>
-                    <GameCard />
+                    <ImgContainer />
+                    <ImgContainer />
+                    <ImgContainer />
+                    <ImgContainer />
+
                 </GameContainer>
                 <AddNewGame />
                 <Link to='/game/new'>
