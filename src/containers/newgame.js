@@ -1,65 +1,111 @@
 import React, { Component } from 'react';
-import {Button, Form, FormGroup, Input, InputGroup, InputGroupAddon} from 'reactstrap'
+import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import styled from 'styled-components';
+
+const GameForm = styled.div`
+    padding: 70px 20px 0 20px;
+    background: #373D65;
+    color: white;
+    height: 100vh;
+`;
+
+const GameHeader = styled.div`
+    font-size: 26px;
+`;
+
 
 
 export default class NewGame extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            
+            gameName: '',
+            scorePerPoint: '',
+            scoreError: '',
+            timerChecked: false,
         }
-
-    
     }
+
+    handleCheck = () => {
+        this.setState({
+            timerChecked: !this.state.timerChecked,
+        })
+    }
+
+    handleChange = event => {
+        this.setState({
+            [event.target.id]: event.target.value
+        });
+    }   
+
+    handleSubmit = event => {
+        event.preventDefault();     
+        
+    }
+
     render() {
+        const timerDiv = this.state.timerChecked
+            ? <div>
+                <InputGroup className="timerInput">
+                    <Input placeholder="0" />
+                    <InputGroupAddon addonType="append">min per round</InputGroupAddon>
+                </InputGroup>
+                <InputGroup className="timerInput">
+                    <Input placeholder="0" />
+                    <InputGroupAddon addonType="append">min per game</InputGroupAddon>
+                </InputGroup>
+                <br />
+            </div>
+            : null;
+
+        const { gameName, scorePerPoint } = this.state;
+        const enabled = gameName.trim().length > 0 && scorePerPoint.trim().length > 0;
         return (
-            <div className="container">
+            <GameForm>
                 <div id="NewGame">
-                    <h3>New game</h3><Button close/>
-                    <Form>
+                    <div className="Row">
+                        <GameHeader>New game<Button style={{ color: '#FFF' }} close />
+                        </GameHeader>
+                        <br />
+                    </div>
+                    <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <Input
-                            type="text"
-                            name="gameName"
-                            id="gameName"
-                            placeholder="name of game"
-                            // value={this.props.gameName}
-                            // onChange={this.handleChange}
+                                type="text"
+                                name="gameName"
+                                id="gameName"
+                                placeholder="name of game"
+                                value={this.props.gameName}
+                                onChange={this.handleChange}
                             />
                         </FormGroup>
                         <FormGroup>
                             <Input
-                            type="number"
-                            name="scorePerPoint"
-                            id="scorePerPoint"
-                            placeholder="point per score"
-                            // value={this.props.gameName}
-                            // onChange={this.handleChange}
+                                type="number"
+                                name="scorePerPoint"
+                                id="scorePerPoint"
+                                placeholder="point per score"
+                                value={this.props.gameName}
+                                onChange={this.handleChange}
                             />
                         </FormGroup>
-                        <div>
-                            <h4>timer</h4>
-                        </div>
-                        <InputGroup className="timerInput">
-                            <Input placeholder="0" />
-                            <InputGroupAddon addonType="append">min per round</InputGroupAddon>
-                        </InputGroup>
-                        <InputGroup className="timerInput">
-                            <Input placeholder="0" />
-                            <InputGroupAddon addonType="append">min per game</InputGroupAddon>
-                        </InputGroup>
+                        <FormGroup>
+                            <input type="checkbox" onChange={this.handleCheck} checked={this.state.timerChecked} />timer
+                        </FormGroup>
+                        {timerDiv}                        
+
                         <FormGroup>
                             <Input
                                 type="submit"
                                 name="saveGame"
                                 value="save game"
-                                // disabled={!enabled}
+                                disabled={!enabled}
                             />
                         </FormGroup>
                     </Form>
                 </div>
-            </div>
+            </GameForm >
         )
     }
-}
+};
+
