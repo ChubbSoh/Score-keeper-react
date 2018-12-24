@@ -5,10 +5,10 @@ const Sidebar = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 50%;
+  width: 60%;
   background: #070B2E;
   height: 100vh;
-  z-index: 2;
+  z-index: 3;
   color: white;
   padding: 20px;
   
@@ -24,12 +24,24 @@ const ListItem = styled.li`
   margin: 0 0 20px 0;
 `;
 
+const ProfilePic = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;  
+  background: #373D65;
+  border: none;
+  margin-right: 15px;
+`;
+
 class SideNav extends Component {
   render() {
     return (
       <div>
         <Sidebar>
-          <h5>SCORE</h5>
+          <SideList>
+            <ProfilePic />Name
+          </SideList>
+          <br />
           <SideList>
             <ListItem>Profile</ListItem>
             <ListItem>Past Games</ListItem>

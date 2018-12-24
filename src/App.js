@@ -15,7 +15,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <AddPlayer />
+        <Homepage />
         <Route exact path="/api/v1/signup" component={Signup} />
         <Route exact path="/api/v1/login" component={Login} />
         <Route exact path="/homepage/:id" component={Homepage} />
