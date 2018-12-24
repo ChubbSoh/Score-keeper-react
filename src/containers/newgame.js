@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import styled from 'styled-components';
 
-
 const GameForm = styled.div`
     padding: 70px 20px 0 20px;
     background: #373D65;
@@ -13,6 +12,7 @@ const GameForm = styled.div`
 const GameHeader = styled.div`
     font-size: 26px;
 `;
+
 
 
 export default class NewGame extends Component {
@@ -36,25 +36,11 @@ export default class NewGame extends Component {
         this.setState({
             [event.target.id]: event.target.value
         });
-    }
-
-    validateForm = () => {
-        const integer = parseInt(this.state.scorePerPoint);
-        if (typeof (integer) === 'number') {
-            this.setState({
-                scorePerPoint: this.state.scorePerPoint,
-            })
-        } else {
-            this.setState({
-                scoreError: 'Please input a number',
-            })
-        }
-    }
+    }   
 
     handleSubmit = event => {
-        event.preventDefault();
-        this.validateForm();
-        this.props.history.push('/user/camera');
+        event.preventDefault();     
+        
     }
 
     render() {
@@ -106,7 +92,8 @@ export default class NewGame extends Component {
                         <FormGroup>
                             <input type="checkbox" onChange={this.handleCheck} checked={this.state.timerChecked} />timer
                         </FormGroup>
-                        {timerDiv}
+                        {timerDiv}                        
+
                         <FormGroup>
                             <Input
                                 type="submit"
@@ -121,3 +108,4 @@ export default class NewGame extends Component {
         )
     }
 };
+
