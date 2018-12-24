@@ -10,9 +10,6 @@ import Signup from './containers/signup.js';
 import Camera from './containers/camera';
 import AddPlayer from './containers/addplayer';
 import SideNav from './components/sidebar.js';
-import Login from './containers/login.js';
-import Signup from './containers/signup.js';
-import NewGame from './containers/newgame.js';
 
 class App extends Component {
   render() {
@@ -22,7 +19,7 @@ class App extends Component {
         <Route exact path="/api/v1/signup" component={Signup} />
         <Route exact path="/api/v1/login" component={Login} />
         <Route exact path="/homepage/:id" component={Homepage} />
-        <Route exact path="api/v1/game" component={NewGame} />  
+        <Route exact path="api/v1/game" component={NewGame} />
       </div>
     );
   }
