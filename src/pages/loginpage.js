@@ -38,8 +38,21 @@ export default class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.validateForm();
-        axios.post('localhost:5000/api/v1/login', )
-        .then(result => console.log(result.data));
+        const user = {
+            email:this.state.email,
+            password:this.state.password
+        };
+        var config = { headers: {  
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'}
+        };
+
+        axios.post('http://localhost:5000/api/v1/login', {user}, config)
+        .then(result => {
+            console.log(result.data.token)
+            localStorage.setItem('jwt', result.data.token)
+            this.props.history.push("/")
+        });
     }
 
     render() {
