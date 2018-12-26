@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import styled from 'styled-components';
-
+import Toggle from 'react-toggle';
+import "react-toggle/style.css";
+import './newgame.css';
 
 const GameForm = styled.div`
     padding: 70px 20px 0 20px;
@@ -14,6 +16,10 @@ const GameHeader = styled.div`
     font-size: 26px;
 `;
 
+const TimerLabel = styled.label`
+    align-items: center;
+    padding-bottom: 10px;
+`;
 
 export default class NewGame extends Component {
     constructor(props) {
@@ -90,6 +96,7 @@ export default class NewGame extends Component {
                                 placeholder="name of game"
                                 value={this.props.gameName}
                                 onChange={this.handleChange}
+
                             />
                         </FormGroup>
                         <FormGroup>
@@ -102,9 +109,15 @@ export default class NewGame extends Component {
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <input type="checkbox" onChange={this.handleCheck} checked={this.state.timerChecked} />timer
-                        </FormGroup>
+                        <TimerLabel>
+                            <Toggle
+                                id='timer'
+                                icons={false}
+                                className='custom-classname'
+                                onChange={this.handleCheck}
+                                checked={this.state.timerChecked}
+                            /> <span>timer</span>
+                        </TimerLabel>
                         {timerDiv}
                         <FormGroup>
                             <Input

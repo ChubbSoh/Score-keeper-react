@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SideNav from '../components/sidebar.js';
 import Navbar from '../components/navbar.js';
 import Backdrop from '../components/backdrop.js';
 import BottomNav from '../components/bottom-nav';
+import NewGame from '../containers/newgame';
+import { withRouter } from 'react-router-dom';
+
 
 const GameContainer = styled.div`
     background: #070B2E;
@@ -37,11 +40,12 @@ const AddNewGame = styled.button`
 `;
 
 
-export default class Homepage extends Component {
+class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sideNavOpen: false
+            sideNavOpen: false,
+
         }
     }
 
@@ -57,6 +61,13 @@ export default class Homepage extends Component {
         })
     }
 
+    changeColor = event => {
+
+    }
+
+    handleClick = () => {
+        this.props.history.push('/game');
+    }
 
     render() {
         let sideNav;
@@ -76,13 +87,12 @@ export default class Homepage extends Component {
                     <ImgContainer />
                     <ImgContainer />
                     <ImgContainer />
-
                 </GameContainer>
-                <AddNewGame />
-                <Link to='/game/new'>
-                    <BottomNav />
-                </Link>
+                <AddNewGame><Link to="/game"></Link></AddNewGame>
+                <BottomNav onclick={this.changeColor} />
             </div>
         )
     }
 }
+
+export default withRouter(Homepage);

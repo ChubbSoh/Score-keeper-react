@@ -62,7 +62,6 @@ export default class Camera extends Component {
                         </CameraButton>
                     </InnerContainer>
                     <br />
-
                     <AddManually type='button'>or key in players</AddManually>
                 </OuterContainer>
 

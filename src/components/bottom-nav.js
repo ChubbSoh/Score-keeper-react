@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const HomeButton = styled.button`
     width: 50%;
@@ -26,8 +27,8 @@ export default class BottomNav extends Component {
     render() {
         return (
             <div>
-                <HomeButton></HomeButton>
-                <GameButton></GameButton>
+                <HomeButton><Link to="/"><img src='/icon/home-icon.svg' alt='home-icon' style={{ width: '22px', height: 'auto' }} /></Link></HomeButton>
+                <GameButton><Link to="/game"><img src='/icon/game-icon.svg' alt='game-icon' style={{ width: '16px', height: 'auto' }} /></Link></GameButton>
             </div>
         )
     }
