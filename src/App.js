@@ -3,14 +3,12 @@ import { Route, Switch } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 import Homepage from './pages/homepage';
 import LoginPage from './pages/loginpage.js';
 
 import NewGame from './containers/newgame';
 import Signup from './containers/signup.js';
-import Camera from './containers/camera';
-import AddPlayer from './containers/addplayer';
-import SideNav from './components/sidebar.js';
 
 class App extends Component {
   render() {

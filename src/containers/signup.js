@@ -29,30 +29,36 @@ export default class Signup extends Component {
                 email: this.state.email,
                 password: this.state.password,
             })
+            return true
         } else {
             this.setState({
                 emailError: "Email address is invalid",
                 passwordError: "Password needs to be at least 6 characters."
             })
+            return false
         }
     };
 
     handleSubmit = event => {
         event.preventDefault();
-        this.validateForm();
+        if (!this.validateForm()) return
+
         const user = {
             name: this.state.name,
             email: this.state.email,
             password: this.state.password
         };
-        var config = { headers: {  
+        var config = { headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'}
         };
-        console.log(user)
         axios.post('http://localhost:5000/api/v1/signup', {user}, config )
-        .then(result => console.log(result));
-        
+        .then(result => {
+          // Log in after succesful sign up
+          localStorage.setItem('jwt', result.data.token)
+          this.props.history.push("/")
+        });
+
     }
 
     render() {
