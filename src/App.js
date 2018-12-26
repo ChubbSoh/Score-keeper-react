@@ -10,6 +10,7 @@ import LoginPage from './pages/loginpage.js';
 import NewGame from './containers/newgame';
 import Signup from './containers/signup.js';
 
+
 class App extends Component {
   render() {
     return (
