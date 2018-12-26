@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import styled from 'styled-components';
+import axios from 'axios';
 
 
 const GameForm = styled.div`
@@ -23,6 +24,8 @@ export default class NewGame extends Component {
             scorePerPoint: '',
             scoreError: '',
             timerChecked: false,
+            timerMinPerRound: null,
+            timerMinPerGame: null,
         }
     }
 
@@ -32,10 +35,16 @@ export default class NewGame extends Component {
         })
     }
 
-    handleChange = event => {
+    // handleChange = event => {
+    //     this.setState({
+    //         [event.target.name]: event.target.value
+    //     });
+    // }
+
+    handleChange = ({target}) => {
         this.setState({
-            [event.target.id]: event.target.value
-        });
+        [target.name]: target.value
+        })
     }
 
     // validateForm = () => {
@@ -53,6 +62,20 @@ export default class NewGame extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        const game = {
+            gameName: this.state.gameName,
+            scorePerPoint: this.state.scorePerPoint,
+            timerChecked: this.state.timerChecked,
+            timerMinPerRound: this.state.timerMinPerRound,
+            timerMinPerGame: this.state.timerMinPerGame,
+        }
+        console.log(game)
+        var config = { headers: {  
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'}
+        };
+        axios.post('http://localhost:5000/api/v1/newgame', {game}, config )
+        .then(result => console.log(result));
         // this.validateForm();        
     }
 
@@ -60,12 +83,12 @@ export default class NewGame extends Component {
         const timerDiv = this.state.timerChecked
             ? <div>
                 <InputGroup className="timerInput">
-                    <Input placeholder="0" />
-                    <InputGroupAddon addonType="append">min per round</InputGroupAddon>
+                    <Input name="timerMinPerRound" id="timerMinPerRound" onChange={this.handleChange} placeholder="0" />
+                    <InputGroupAddon addonType="append" >min per round</InputGroupAddon>
                 </InputGroup>
                 <InputGroup className="timerInput">
-                    <Input placeholder="0" />
-                    <InputGroupAddon addonType="append">min per game</InputGroupAddon>
+                    <Input name="timerMinPerGame" id="timerMinPerGame" onChange={this.handleChange} placeholder="0" />
+                    <InputGroupAddon addonType="append" >min per game</InputGroupAddon>
                 </InputGroup>
                 <br />
             </div>

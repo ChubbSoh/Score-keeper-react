@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 import Homepage from './pages/homepage';
+import LoginPage from './pages/loginpage.js';
+
 import NewGame from './containers/newgame';
-import Login from './containers/login.js';
 import Signup from './containers/signup.js';
-import Camera from './containers/camera';
-import AddPlayer from './containers/addplayer';
-import SideNav from './components/sidebar.js';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Homepage />
-        <Route exact path="/api/v1/signup" component={Signup} />
-        <Route exact path="/api/v1/login" component={Login} />
-        <Route exact path="/homepage/:id" component={Homepage} />
-        <Route exact path="api/v1/game" component={NewGame} />
-      </div>
+      <Switch>
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/newgame" component={NewGame} />
+      </Switch>
     );
   }
 }
