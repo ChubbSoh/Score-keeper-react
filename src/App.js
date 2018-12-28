@@ -16,42 +16,20 @@ import SideNav from './components/sidebar';
 import BottomNav from './components/bottom-nav';
 import Backdrop from './components/backdrop';
 
-// const RouteWrapper = ({
-//   navHidden = false,
-//   component,
-//   ...routeProps,
-// }) => {
-//   return (
-//     <Route {...routeProps}
-//       render={
-//         props => (
-//           <div>
-//             {navHidden || <Navbar />}
-//             {navHidden || <SideNav />}
-//             {navHidden || <BottomNav />}
-//             {navHidden || <Backdrop />}
-//             <component {...props} />
-//           </div>
-//         )
-//       }
-//     />
-//   )
-// }
-
 class App extends Component {
   constructor(props) {
     super(props);
     const { pathname } = this.props.location;
     this.state = {
       sideNavOpen: false,
-      navHidden: pathname === '/login' || pathname === '/signup'
+      navHidden: pathname === '/' || pathname === '/login' || pathname === '/signup'
     }
   }
 
   componentDidMount() {
     this.unlisten = this.props.history.listen(location => {
       const { pathname } = location;
-      const navHidden = pathname === '/login' || pathname === '/signup';
+      const navHidden = pathname === '/' || pathname === '/login' || pathname === '/signup';
       this.setState({ navHidden })
     })
   }
@@ -91,7 +69,7 @@ class App extends Component {
           </div>
         }
         <Switch>
-          <Route exact path='/' render={() => <Redirect to='/login' />} />
+          <Route navHidden exact path='/' render={() => <Redirect to='/login' />} />
           <Route navHidden exact path='/login' component={LoginPage} />
           <Route navHidden exact path="/signup" component={Signup} />
           <Route exact path="/home" component={Homepage} />

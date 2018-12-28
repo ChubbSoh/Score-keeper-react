@@ -22,19 +22,28 @@ const PlayerCard = styled.div`
     border-radius: 5px;
     margin: 10px 0 0 0;
     display: flex;
+    justify-content: space-between;
 `;
 
 const PlayerLabel = styled.label`
     font-size: 18px;
-    margin: 5px 100px 0 0;
 `;
 
 const ScoreDiv = styled.div`
-    margin: 0 20px 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+`;
+
+const ScoreButton = styled.button`
+    background: transparent;
+    color: white;
+    border: none;
 `;
 
 const checkPlayer = Component => props => {
-    if (props.location.state) {
+    if (props.location.player) {
         return <Component {...props} />
     } else {
         return <Redirect to={'/players'} />
@@ -45,7 +54,7 @@ class Score extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            player: this.props.location.player ? this.props.location.player.map((name) => ({ name: name, score: 0 })) : []
+            player: this.props.location.player.map((name) => ({ name: name, score: 0 }))
         }
     }
 
@@ -66,10 +75,6 @@ class Score extends Component {
     }
 
     render() {
-        if (!this.props.location.state) {
-            return <Redirect to='/players' />
-        }
-
         return (
             <div>
                 <OuterContainer>
@@ -78,9 +83,11 @@ class Score extends Component {
                         this.state.player.map((player, index) =>
                             <PlayerCard key={index}>
                                 <PlayerLabel>{player.name}</PlayerLabel>
-                                <Button id={index} onClick={this.minusScore}>-</Button>
-                                <ScoreDiv>{player.score}</ScoreDiv>
-                                <Button id={index} onClick={this.addScore}>+</Button>
+                                <ScoreDiv>
+                                    <ScoreButton id={index} onClick={this.minusScore}>-</ScoreButton>
+                                    {player.score}
+                                    <ScoreButton id={index} onClick={this.addScore}>+</ScoreButton>
+                                </ScoreDiv>
                             </PlayerCard>
                         )
                     }
