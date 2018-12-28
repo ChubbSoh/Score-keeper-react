@@ -5,9 +5,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OuterContainer = styled.div`
-    padding: 70px 40px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #070B2E;
-    height: 100vh;    
+    height: 100vh;
+    padding: 0 20px 0 20px;      
+`;
+
+const Header = styled.div`
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 10px;
 `;
 
 export default class Signup extends Component {
@@ -79,6 +89,7 @@ export default class Signup extends Component {
         return (
             <OuterContainer>
                 <div id="Login">
+                    <Header>SC0RE</Header>
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
                             <Input
