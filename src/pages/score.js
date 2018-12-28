@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Button } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
 
 const OuterContainer = styled.div`
