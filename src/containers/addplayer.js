@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/navbar.js';
-import BottomNav from '../components/bottom-nav';
 import { Form, FormGroup, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
 
 const Header = styled.div`
@@ -38,19 +36,20 @@ const StartGameBtn = styled.button`
 
 export default class AddPlayer extends Component {
     state = {
-        player: [],
+        player: ['', '',],
         addPlayerClicked: false,
     }
 
     addPlayer = event => {
+        event.preventDefault();
         this.setState((prevState) => ({
-            player: [...prevState.player, { name: '' }],
+            player: [...prevState.player, ''],
             addPlayerClicked: true,
         }));
     }
 
     removePlayer = index => {
-        const copyPlayer = Object.assign([], this.state.player);
+        const copyPlayer = this.state.player;
         copyPlayer.splice(index, 1);
         this.setState({
             player: copyPlayer,
@@ -58,8 +57,10 @@ export default class AddPlayer extends Component {
     }
 
     handleChange = event => {
+        const currentPlayer = this.state.player
+        currentPlayer[event.target.id] = event.target.value
         this.setState({
-            [event.target.id]: event.target.value
+            player: currentPlayer,
         });
     }
 
@@ -77,17 +78,28 @@ export default class AddPlayer extends Component {
         // this.validateForm();
     }
 
+    startGame = () => {
+        this.props.history.push({
+            pathname: '/startgame',
+            player: this.state.player
+        })
+    }
+
     render() {
         let { player } = this.state;
+        const [, , ...newPlayer] = player;
         const newPlayerDiv = this.state.addPlayerClicked
-            ? player.map((name, index) => {
+            ? newPlayer.map((name, index) => {
                 return (
                     <FormGroup key={index}>
                         <InputGroup>
                             <Input
                                 type='text'
                                 name={name}
+                                id={index + 2}
                                 placeholder='name'
+                                onChange={this.handleChange}
+                                value={player[index + 2]}
                             />
                             <InputGroupAddon addonType='prepend'>
                                 <Button onClick={this.removePlayer.bind(this, index)} >remove</Button>
@@ -100,23 +112,35 @@ export default class AddPlayer extends Component {
 
         return (
             <div>
-                <Navbar />
                 <OuterContainer>
                     <Header>Add players</Header>
                     <br />
                     <Form id='playerForm' onSubmit={this.handleSubmit}>
                         <FormGroup>
-                            <Input type='text' name='playerName' id='name' placeholder='name' onChange={this.props.handleChange} />
+                            <Input
+                                type='text'
+                                name='playerName'
+                                id={0}
+                                placeholder='name'
+                                onChange={this.handleChange}
+                                value={player[0]}
+                            />
                         </FormGroup>
                         <FormGroup>
-                            <Input type='text' name='playerName' id='name' placeholder='name' onChange={this.props.handleChange} />
+                            <Input
+                                type='text'
+                                name='playerName'
+                                id={1}
+                                placeholder='name'
+                                onChange={this.handleChange}
+                                value={player[1]}
+                            />
                         </FormGroup>
                         {newPlayerDiv}
                         <AddPlayerButton onClick={this.addPlayer}>Add more players</AddPlayerButton>
                     </Form>
-                    <StartGameBtn attribute='playerForm' type="submit">Start game</StartGameBtn>
+                    <StartGameBtn attribute='playerForm' type="submit" onClick={this.startGame}>Start game</StartGameBtn>
                 </OuterContainer>
-                <BottomNav />
             </div>
         )
     }

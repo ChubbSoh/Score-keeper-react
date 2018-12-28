@@ -5,7 +5,7 @@ import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import './newgame.css';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 
 
 const GameForm = styled.div`
@@ -49,9 +49,9 @@ export default class NewGame extends Component {
     //     });
     // }
 
-    handleChange = ({target}) => {
+    handleChange = ({ target }) => {
         this.setState({
-        [target.name]: target.value
+            [target.name]: target.value
         })
     }
 
@@ -78,12 +78,14 @@ export default class NewGame extends Component {
             timerMinPerGame: this.state.timerMinPerGame,
         }
         console.log(game)
-        var config = { headers: {  
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'}
+        var config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
         };
-        axios.post('http://localhost:5000/api/v1/newgame', {game}, config )
-        .then(result => console.log(result));
+        axios.post('http://localhost:5000/api/v1/newgame', { game }, config)
+            .then(result => console.log(result));
         // this.validateForm();        
     }
 
@@ -144,15 +146,14 @@ export default class NewGame extends Component {
                             /> <span>timer</span>
                         </TimerLabel>
                         {timerDiv}
-                        <FormGroup>
-                            <Input
-                                type="submit"
-                                name="saveGame"
-                                value="save game"
-                                disabled={!enabled}
-                            />
-                        </FormGroup>
                     </Form>
+                    <Link to={{ pathname: '/camera' }}>
+                        <Button
+                            attribute='NewGame'
+                            type="submit" style={{ width: '100%', background: '#0CB18F' }}
+                            disabled={!enabled}
+                        >save game</Button>
+                    </Link>
                 </div>
             </GameForm >
         )

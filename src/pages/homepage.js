@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import SideNav from '../components/sidebar.js';
-import Navbar from '../components/navbar.js';
-import Backdrop from '../components/backdrop.js';
-import BottomNav from '../components/bottom-nav';
-import NewGame from '../containers/newgame';
-import { withRouter } from 'react-router-dom';
-
 
 const GameContainer = styled.div`
     background: #070B2E;
@@ -41,58 +34,21 @@ const AddNewGame = styled.button`
 
 
 class Homepage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            sideNavOpen: false,
-
-        }
-    }
-
-    toggleHandler = () => {
-        this.setState((prevState) => {
-            return { sideNavOpen: !prevState.sideNavOpen };
-        })
-    };
-
-    backdropClickHandler = () => {
-        this.setState({
-            sideNavOpen: false,
-        })
-    }
-
-    changeColor = event => {
-
-    }
-
-    handleClick = () => {
-        this.props.history.push('/game');
-    }
-
     render() {
-        let sideNav;
-        let backdrop;
-        if (this.state.sideNavOpen) {
-            sideNav = <SideNav />
-            backdrop = <Backdrop click={this.backdropClickHandler} />
-        }
-
         return (
             <div>
-                <Navbar clickHandler={this.toggleHandler} />
-                {sideNav}
-                {backdrop}
                 <GameContainer>
                     <ImgContainer />
                     <ImgContainer />
                     <ImgContainer />
                     <ImgContainer />
                 </GameContainer>
-                <AddNewGame><Link to="/game"></Link></AddNewGame>
-                <BottomNav onclick={this.changeColor} />
+                <Link to={{ pathname: '/newgame' }}>
+                    <AddNewGame><img src='/icon/add-icon.png' alt='add-icon' /></AddNewGame>
+                </Link>
             </div>
         )
     }
 }
 
-export default withRouter(Homepage);
+export default Homepage;
