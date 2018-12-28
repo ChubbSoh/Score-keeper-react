@@ -64,18 +64,16 @@ export default class AddPlayer extends Component {
         });
     }
 
-    // validateForm = () => {
-    //     const getName = Object.values(this.state.name)
-    //     if (getName.length() > 0) {
-    //         return true
-    //     } else {
-    //         return false
-    //     }
-    // }
+    validateForm = () => {
+        const getName = this.state.player;
+        if (!getName.includes('')) {
+            this.startGame()
+        }
+    }
 
     handleSubmit = event => {
         event.preventDefault();
-        // this.validateForm();
+        this.validateForm();
     }
 
     startGame = () => {
@@ -139,7 +137,7 @@ export default class AddPlayer extends Component {
                         {newPlayerDiv}
                         <AddPlayerButton onClick={this.addPlayer}>Add more players</AddPlayerButton>
                     </Form>
-                    <StartGameBtn attribute='playerForm' type="submit" onClick={this.startGame}>Start game</StartGameBtn>
+                    <StartGameBtn attribute='playerForm' type="submit" onClick={this.validateForm}>Start game</StartGameBtn>
                 </OuterContainer>
             </div>
         )
