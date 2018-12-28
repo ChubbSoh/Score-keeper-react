@@ -5,9 +5,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const OuterContainer = styled.div`
-    padding: 70px 40px 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #070B2E;
-    height: 100vh;    
+    height: 100vh;  
+    padding: 0 20px 0 20px;  
+`;
+
+const Header = styled.div`
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 10px;
 `;
 
 export default class Login extends Component {
@@ -68,45 +78,48 @@ export default class Login extends Component {
         const { email, password } = this.state;
         const enabled = email.trim().length > 0 && password.trim().length > 0;
         return (
-            <OuterContainer>
-                <div id="Login">
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Input
-                                type="email"
-                                name="email"
-                                id="email"
-                                placeholder="email"
-                                value={this.props.email}
-                                onChange={this.handleChange}
-                            />
-                            <div className="error">{this.state.emailError}</div>
-                        </FormGroup>
-                        <FormGroup>
-                            <Input
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder="password"
-                                value={this.props.password}
-                                onChange={this.handleChange}
-                            />
-                            <div className="error">{this.state.passwordError}</div>
-                        </FormGroup>
-                        <FormGroup>
-                            <Input
-                                type="submit"
-                                name="login"
-                                value="Login"
-                                disabled={!enabled}
-                            />
-                        </FormGroup>
-                    </Form>
-                    <div style={{ color: 'white' }}>If you're not a member,
+            <div>
+                <OuterContainer>
+                    <div id="Login">
+                        <Header>SC0RE</Header>
+                        <Form onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <Input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="email"
+                                    value={this.props.email}
+                                    onChange={this.handleChange}
+                                />
+                                <div className="error">{this.state.emailError}</div>
+                            </FormGroup>
+                            <FormGroup>
+                                <Input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="password"
+                                    value={this.props.password}
+                                    onChange={this.handleChange}
+                                />
+                                <div className="error">{this.state.passwordError}</div>
+                            </FormGroup>
+                            <FormGroup>
+                                <Input
+                                    type="submit"
+                                    name="login"
+                                    value="Login"
+                                    disabled={!enabled}
+                                />
+                            </FormGroup>
+                        </Form>
+                        <div style={{ color: 'white' }}>If you're not a member,
                         <Link to='/signup'><button className="btn btn-link">signup here</button></Link>
+                        </div>
                     </div>
-                </div>
-            </OuterContainer>
+                </OuterContainer>
+            </div>
         );
     }
 }

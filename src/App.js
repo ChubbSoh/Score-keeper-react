@@ -91,6 +91,7 @@ class App extends Component {
           </div>
         }
         <Switch>
+          <Route exact path='/' render={() => <Redirect to='/login' />} />
           <Route navHidden exact path='/login' component={LoginPage} />
           <Route navHidden exact path="/signup" component={Signup} />
           <Route exact path="/home" component={Homepage} />
