@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/navbar.js';
-import BottomNav from '../components/bottom-nav';
+import { Link } from 'react-router-dom';
 
 const CameraButton = styled.label`
     width: 250px;
@@ -52,7 +51,6 @@ export default class Camera extends Component {
     render() {
         return (
             <div>
-                <Navbar />
                 <OuterContainer>
                     <Header>Add players</Header>
                     <br />
@@ -62,10 +60,8 @@ export default class Camera extends Component {
                         </CameraButton>
                     </InnerContainer>
                     <br />
-                    <AddManually type='button'>or key in players</AddManually>
+                    <Link to={'/players'}><AddManually type='button'>or key in players</AddManually></Link>
                 </OuterContainer>
-
-                <BottomNav />
             </div>
         )
     }

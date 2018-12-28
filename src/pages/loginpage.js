@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { Input, Form, FormGroup } from "reactstrap";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
+const OuterContainer = styled.div`
+    padding: 70px 40px 0 40px;
+    background: #070B2E;
+    height: 100vh;    
+`;
 
 export default class Login extends Component {
     constructor(props) {
@@ -39,27 +46,29 @@ export default class Login extends Component {
         event.preventDefault();
         this.validateForm();
         const user = {
-            email:this.state.email,
-            password:this.state.password
+            email: this.state.email,
+            password: this.state.password
         };
-        var config = { headers: {  
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'}
+        var config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
         };
 
-        axios.post('http://localhost:5000/api/v1/login', {user}, config)
-        .then(result => {
-            console.log(result.data.token)
-            localStorage.setItem('jwt', result.data.token)
-            this.props.history.push("/")
-        });
+        axios.post('http://localhost:5000/api/v1/login', { user }, config)
+            .then(result => {
+                console.log(result.data.token)
+                localStorage.setItem('jwt', result.data.token)
+                this.props.history.push("/home")
+            });
     }
 
     render() {
         const { email, password } = this.state;
         const enabled = email.trim().length > 0 && password.trim().length > 0;
         return (
-            <div className="container">
+            <OuterContainer>
                 <div id="Login">
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
@@ -93,10 +102,11 @@ export default class Login extends Component {
                             />
                         </FormGroup>
                     </Form>
-                    If you're not a member
-                    <a className="btn btn-link" href="#">Signup here</a>
+                    <div style={{ color: 'white' }}>If you're not a member,
+                        <Link to='/signup'><button className="btn btn-link">signup here</button></Link>
+                    </div>
                 </div>
-            </div>
+            </OuterContainer>
         );
     }
 }

@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { Input, Form, FormGroup } from "reactstrap";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const OuterContainer = styled.div`
+    padding: 70px 40px 0 40px;
+    background: #070B2E;
+    height: 100vh;    
+`;
 
 export default class Signup extends Component {
     constructor(props) {
@@ -48,16 +56,18 @@ export default class Signup extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        var config = { headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'}
+        var config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
         };
-        axios.post('http://localhost:5000/api/v1/signup', {user}, config )
-        .then(result => {
-          // Log in after succesful sign up
-          localStorage.setItem('jwt', result.data.token)
-          this.props.history.push("/")
-        });
+        axios.post('http://localhost:5000/api/v1/signup', { user }, config)
+            .then(result => {
+                // Log in after succesful sign up
+                localStorage.setItem('jwt', result.data.token)
+                this.props.history.push("/")
+            });
 
     }
 
@@ -67,7 +77,7 @@ export default class Signup extends Component {
             && email.trim().length > 0
             && password.trim().length > 0;
         return (
-            <div className="container">
+            <OuterContainer>
                 <div id="Login">
                     <Form onSubmit={this.handleSubmit}>
                         <FormGroup>
@@ -112,11 +122,12 @@ export default class Signup extends Component {
                         </FormGroup>
                     </Form>
                     <div>
-                        If you're already a member
-                        <a className="btn btn-link" href="/login">Login here</a>
+                        <div style={{ color: 'white' }}>If you're already a member,
+                            <Link to='/login'><button className="btn btn-link">login here</button></Link>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            </OuterContainer>
+        )
     }
 }
