@@ -39,7 +39,7 @@ class SideNav extends Component {
       <div>
         <Sidebar>
           <SideList>
-            <ProfilePic />Name
+            <ProfilePic src='icon/profile-icon.svg' />Name
           </SideList>
           <br />
           <SideList>
