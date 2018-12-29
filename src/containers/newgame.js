@@ -49,18 +49,6 @@ export default class NewGame extends Component {
         })
     }
 
-    // validateForm = () => {
-    //     const integer = parseInt(this.state.scorePerPoint);
-    //     if (typeof (integer) === 'number') {
-    //         this.setState({
-    //             scorePerPoint: this.state.scorePerPoint,
-    //         })
-    //     } else {
-    //         this.setState({
-    //             scoreError: 'Please input a number',
-    //         })
-    //     }
-    // }
 
     handleSubmit = event => {
         event.preventDefault();
@@ -80,7 +68,6 @@ export default class NewGame extends Component {
         };
         axios.post('http://localhost:5000/api/v1/newgame', { game }, config)
             .then(result => console.log(result));
-        // this.validateForm();        
     }
 
     render() {
@@ -117,7 +104,6 @@ export default class NewGame extends Component {
                                 placeholder="name of game"
                                 value={this.props.gameName}
                                 onChange={this.handleChange}
-
                             />
                         </FormGroup>
                         <FormGroup>

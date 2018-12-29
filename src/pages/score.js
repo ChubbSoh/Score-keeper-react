@@ -48,11 +48,24 @@ const EndButton = styled.button`
     border: none;
 `;
 
-const PlayerAvatar = styled.img`
+const AvatarContainer = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 15px;
     margin-right: 10px;
+    overflow: hidden;
+    position: relative;
+`;
+
+const PlayerAvatar = styled.img`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height:100%;
+    width: auto;
+    -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
 `;
 
 const checkPlayer = Component => props => {
@@ -114,7 +127,9 @@ class Score extends Component {
                         sortedPlayers.map((player, index) =>
                             <PlayerCard key={index}>
                                 <PlayerLabel>
-                                    <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                                    <AvatarContainer>
+                                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                                    </AvatarContainer>
                                     {player.name}
                                 </PlayerLabel>
                                 <ScoreDiv>

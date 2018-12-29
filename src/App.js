@@ -16,6 +16,7 @@ import SideNav from './components/sidebar';
 import BottomNav from './components/bottom-nav';
 import Backdrop from './components/backdrop';
 import Winner from './pages/winner';
+import Scrabble from './pages/scrabble';
 
 class App extends Component {
   constructor(props) {
@@ -79,6 +80,7 @@ class App extends Component {
           <Route exact path="/players" component={AddPlayer} />
           <Route exact path="/camera" component={Camera} />
           <Route exact path="/winner" component={Winner} />
+          <Route exact path="/scrabble" component={Scrabble} />
         </Switch>
       </div>
     )

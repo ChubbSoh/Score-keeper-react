@@ -40,6 +40,9 @@ const Bronze = styled(PlayerCard)`
 
 const PlayerLabel = styled.label`
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const ScoreDiv = styled.div`
@@ -58,12 +61,26 @@ const SaveButton = styled.button`
     margin-top: 10px;
 `;
 
-const PlayerAvatar = styled.img`
+const AvatarContainer = styled.div`
     width: 30px;
     height: 30px;
     border-radius: 15px;
     margin-right: 10px;
+    overflow: hidden;
+    position: relative;
 `;
+
+const PlayerAvatar = styled.img`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height:100%;
+    width: auto;
+    -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+`;
+
 
 const checkPlayer = Component => props => {
     if (props.location.player) {
@@ -84,6 +101,7 @@ class Winner extends Component {
 
     saveGame = event => {
         event.preventDefault()
+        this.props.history.push('/home')
     }
 
     render() {
@@ -96,7 +114,9 @@ class Winner extends Component {
             ?
             <Bronze>
                 <PlayerLabel>
-                    <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                    <AvatarContainer>
+                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                    </AvatarContainer>
                     {sortedPlayers[2].name}
                 </PlayerLabel>
                 <ScoreDiv>
@@ -112,7 +132,9 @@ class Winner extends Component {
                 </TrophyDiv>
                 <Gold>
                     <PlayerLabel>
-                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                        <AvatarContainer>
+                            <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                        </AvatarContainer>
                         {sortedPlayers[0].name}
                     </PlayerLabel>
                     <ScoreDiv>
@@ -121,7 +143,9 @@ class Winner extends Component {
                 </Gold>
                 <Silver>
                     <PlayerLabel>
-                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                        <AvatarContainer>
+                            <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                        </AvatarContainer>
                         {sortedPlayers[1].name}
                     </PlayerLabel>
                     <ScoreDiv>
@@ -137,13 +161,3 @@ class Winner extends Component {
 
 export default checkPlayer(Winner);
 
-// {
-//     this.state.player.map((player, index) =>
-//         <PlayerCard key={index}>
-//             <PlayerLabel>{player.name}</PlayerLabel>
-//             <ScoreDiv>
-//                 {player.score}
-//             </ScoreDiv>
-//         </PlayerCard>
-//     )
-// }

@@ -47,6 +47,13 @@ const AddManually = styled.button`
     margin-top: 50px;
 `;
 
+const CameraIcon = styled.img`
+    width: auto;
+    height: 100px;
+    margin-bottom: 10px;
+    display: block;
+`;
+
 export default class Camera extends Component {
     render() {
         return (
@@ -55,8 +62,12 @@ export default class Camera extends Component {
                     <Header>Add players</Header>
                     <br />
                     <InnerContainer>
-                        <CameraButton>Take a wefie!
-                                <Input type="file" accept="image/*" capture="user" />
+                        <CameraButton>
+                            <div>
+                                <CameraIcon src='icon/camera-icon.svg' />
+                                Take a wefie!
+                            </div>
+                            <Input type="file" accept="image/*" capture="user" />
                         </CameraButton>
                     </InnerContainer>
                     <br />
