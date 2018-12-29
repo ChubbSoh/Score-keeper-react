@@ -8,11 +8,6 @@ const OuterContainer = styled.div`
     height: 100vh;    
 `;
 
-const Header = styled.div`
-    color: #FFF;
-    font-size: 20px;
-`;
-
 const PlayerCard = styled.div`
     background-color: #373D65;
     width: 100%;
@@ -24,21 +19,40 @@ const PlayerCard = styled.div`
     justify-content: space-between;
 `;
 
-const PlayerLabel = styled.label`
+const PlayerLabel = styled.div`
     font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const ScoreDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 20%;
+    width: 20%;    
 `;
 
 const ScoreButton = styled.button`
     background: transparent;
     color: white;
     border: none;
+`;
+
+const EndButton = styled.button`
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    background: #ABABAB;
+    border: none;
+`;
+
+const PlayerAvatar = styled.img`
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    margin-right: 10px;
 `;
 
 const checkPlayer = Component => props => {
@@ -53,13 +67,17 @@ class Score extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            player: this.props.location.player.map((name) => ({ name: name, score: 0 }))
+            player: this.props.location.player.map((player) => ({ name: player.name, score: 0 })),
+
         }
     }
 
     addScore = event => {
         const newPlayers = [...this.state.player]
-        newPlayers[event.target.id]['score'] += 1
+        const sortedPlayers = newPlayers.sort((a, b) =>
+            b.score - a.score
+        );
+        sortedPlayers[event.target.id]['score'] += 1
         this.setState(() => ({
             player: newPlayers
         }))
@@ -67,21 +85,38 @@ class Score extends Component {
 
     minusScore = event => {
         const newPlayers = [...this.state.player]
-        newPlayers[event.target.id]['score'] -= 1
+        const sortedPlayers = newPlayers.sort((a, b) =>
+            b.score - a.score
+        );
+        sortedPlayers[event.target.id]['score'] -= 1
         this.setState(() => ({
             player: newPlayers
         }))
     }
 
+    endGameClicked = () => {
+        this.props.history.push({
+            pathname: '/winner',
+            player: this.state.player
+        })
+    }
+
     render() {
+        const newPlayers = [...this.state.player]
+        const sortedPlayers = newPlayers.sort((a, b) =>
+            b.score - a.score
+        );
+
         return (
             <div>
                 <OuterContainer>
-                    <Header>Players list</Header>
                     {
-                        this.state.player.map((player, index) =>
+                        sortedPlayers.map((player, index) =>
                             <PlayerCard key={index}>
-                                <PlayerLabel>{player.name}</PlayerLabel>
+                                <PlayerLabel>
+                                    <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                                    {player.name}
+                                </PlayerLabel>
                                 <ScoreDiv>
                                     <ScoreButton id={index} onClick={this.minusScore}>-</ScoreButton>
                                     {player.score}
@@ -90,6 +125,7 @@ class Score extends Component {
                             </PlayerCard>
                         )
                     }
+                    <EndButton onClick={this.endGameClicked}>end game</EndButton>
                 </OuterContainer>
             </div>
         )
@@ -97,3 +133,5 @@ class Score extends Component {
 }
 
 export default checkPlayer(Score);
+
+

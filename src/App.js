@@ -15,6 +15,7 @@ import Navbar from './components/navbar';
 import SideNav from './components/sidebar';
 import BottomNav from './components/bottom-nav';
 import Backdrop from './components/backdrop';
+import Winner from './pages/winner';
 
 class App extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ class App extends Component {
           <Route exact path="/startgame" component={Score} />
           <Route exact path="/players" component={AddPlayer} />
           <Route exact path="/camera" component={Camera} />
+          <Route exact path="/winner" component={Winner} />
         </Switch>
       </div>
     )
