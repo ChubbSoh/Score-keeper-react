@@ -36,20 +36,23 @@ const StartGameBtn = styled.button`
 
 export default class AddPlayer extends Component {
     state = {
-        player: ['', '',],
+        player: [
+            { name: '' },
+            { name: '' },
+        ],
         addPlayerClicked: false,
     }
 
     addPlayer = event => {
         event.preventDefault();
         this.setState((prevState) => ({
-            player: [...prevState.player, ''],
+            player: [...prevState.player, { name: '', avatar: {} }],
             addPlayerClicked: true,
         }));
     }
 
     removePlayer = index => {
-        const copyPlayer = this.state.player;
+        const copyPlayer = Object.assign([], this.state.player);
         copyPlayer.splice(index, 1);
         this.setState({
             player: copyPlayer,
@@ -58,7 +61,7 @@ export default class AddPlayer extends Component {
 
     handleChange = event => {
         const currentPlayer = this.state.player
-        currentPlayer[event.target.id] = event.target.value
+        currentPlayer[event.target.id] = { name: event.target.value }
         this.setState({
             player: currentPlayer,
         });
@@ -66,14 +69,16 @@ export default class AddPlayer extends Component {
 
     validateForm = () => {
         const getName = this.state.player;
-        if (!getName.includes('')) {
+        if (getName.forEach((player) =>
+            !player.name === ''
+        )) {
             this.startGame()
         }
     }
 
     handleSubmit = event => {
         event.preventDefault();
-        this.validateForm();
+        // this.validateForm();
     }
 
     startGame = () => {
@@ -87,17 +92,17 @@ export default class AddPlayer extends Component {
         let { player } = this.state;
         const [, , ...newPlayer] = player;
         const newPlayerDiv = this.state.addPlayerClicked
-            ? newPlayer.map((name, index) => {
+            ? newPlayer.map((player, index) => {
                 return (
                     <FormGroup key={index}>
                         <InputGroup>
                             <Input
                                 type='text'
-                                name={name}
+                                name='playerName'
                                 id={index + 2}
                                 placeholder='name'
                                 onChange={this.handleChange}
-                                value={player[index + 2]}
+                                value={player.name}
                             />
                             <InputGroupAddon addonType='prepend'>
                                 <Button onClick={this.removePlayer.bind(this, index)} >remove</Button>
@@ -121,7 +126,7 @@ export default class AddPlayer extends Component {
                                 id={0}
                                 placeholder='name'
                                 onChange={this.handleChange}
-                                value={player[0]}
+                                value={player[0].name}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -131,13 +136,13 @@ export default class AddPlayer extends Component {
                                 id={1}
                                 placeholder='name'
                                 onChange={this.handleChange}
-                                value={player[1]}
+                                value={player[1].name}
                             />
                         </FormGroup>
                         {newPlayerDiv}
                         <AddPlayerButton onClick={this.addPlayer}>Add more players</AddPlayerButton>
                     </Form>
-                    <StartGameBtn attribute='playerForm' type="submit" onClick={this.validateForm}>Start game</StartGameBtn>
+                    <StartGameBtn attribute='playerForm' type="submit" onClick={this.startGame}>Start game</StartGameBtn>
                 </OuterContainer>
             </div>
         )
