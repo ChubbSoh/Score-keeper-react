@@ -59,7 +59,10 @@ export default class NewGame extends Component {
     //         })
     //     }
     // }
+    handleClose = () => {
+        this.props.history.push("/")
 
+    }
     handleSubmit = event => {
         event.preventDefault();
         const game = {
@@ -102,7 +105,12 @@ export default class NewGame extends Component {
             <GameForm>
                 <div id="NewGame">
                     <div className="Row">
-                        <GameHeader>New game<Button style={{ color: '#FFF' }} close />
+                        <GameHeader>New game
+                        <Button 
+                        style={{ color: '#FFF' }} 
+                        onClick = {this.handleClose}
+                        close
+                        />
                         </GameHeader>
                         <br />
                     </div>
