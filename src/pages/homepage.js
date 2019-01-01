@@ -7,6 +7,7 @@ import Backdrop from '../components/backdrop.js';
 import BottomNav from '../components/bottom-nav';
 import NewGame from '../containers/newgame.js';
 import { Redirect} from 'react-router';
+import plusicon from '../plusicon.svg'
 
 const GameContainer = styled.div`
     background: #070B2E;
@@ -34,9 +35,32 @@ const AddNewGame = styled.button`
     bottom: 0;
     right: 0;
     border-radius: 30px;
-    background: #0CB18F;
-    border: none; 
+    background: #070b2e;
+    border: none;
+
+    >img {
+        width: 60px;
+        height: 60px;
+
+    }
+
 `;
+// .horizontal-plus {
+//     position: relative;
+//     background-color: #FFFFFF;
+//     width: 50%;
+//     height: 12.5%;
+//     left: 25%;
+//     top: 43.75%;
+//   }
+//   .vertical-plus {
+//     position: relative;
+//     background-color: #FFFFFF;
+//     width: 12.5%;
+//     height: 50%;
+//     left: 43.75%;
+//     top: 12.5%;
+//   }
 
 
 export default class Homepage extends Component {
@@ -97,7 +121,8 @@ export default class Homepage extends Component {
                 <AddNewGame 
                 onClick={this.handleClick}
                 
-                />
+                >
+                <img src={plusicon} alt='plusicon'/> </AddNewGame>
 
                 <Link to= {<NewGame/>}>
                     <BottomNav />
