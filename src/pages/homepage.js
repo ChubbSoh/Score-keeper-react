@@ -5,6 +5,8 @@ import SideNav from '../components/sidebar.js';
 import Navbar from '../components/navbar.js';
 import Backdrop from '../components/backdrop.js';
 import BottomNav from '../components/bottom-nav';
+import NewGame from '../containers/newgame.js';
+import { Redirect} from 'react-router';
 
 const GameContainer = styled.div`
     background: #070B2E;
@@ -57,14 +59,28 @@ export default class Homepage extends Component {
         })
     }
 
+    handleClick = () => {
+        this.setState({
+            isClicked: true
+        })
+        
+    }
+
 
     render() {
+
         let sideNav;
         let backdrop;
         if (this.state.sideNavOpen) {
             sideNav = <SideNav />
             backdrop = <Backdrop click={this.backdropClickHandler} />
         }
+
+        if (this.state.isClicked) {
+            return <Redirect to={{
+              pathname: '/newgame',
+            }} />;
+          }
 
         return (
             <div>
@@ -78,8 +94,12 @@ export default class Homepage extends Component {
                     <ImgContainer />
 
                 </GameContainer>
-                <AddNewGame />
-                <Link to='/game/new'>
+                <AddNewGame 
+                onClick={this.handleClick}
+                
+                />
+
+                <Link to= {<NewGame/>}>
                     <BottomNav />
                 </Link>
             </div>

@@ -49,6 +49,7 @@ export default class Signup extends Component {
             password: this.state.password
         };
         var config = { headers: {
+            'Authorization': localStorage.getItem('jwt'),
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'}
         };

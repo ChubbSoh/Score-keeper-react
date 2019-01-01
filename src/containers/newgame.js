@@ -70,10 +70,12 @@ export default class NewGame extends Component {
             timerMinPerGame: this.state.timerMinPerGame,
         }
         console.log(game)
-        var config = { headers: {  
+        var config = { headers: {
+            'Authorization': localStorage.getItem('jwt'),  
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'}
         };
+        console.log(config)
         axios.post('http://localhost:5000/api/v1/newgame', {game}, config )
         .then(result => console.log(result));
         // this.validateForm();        

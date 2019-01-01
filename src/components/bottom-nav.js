@@ -22,12 +22,27 @@ const GameButton = styled.button`
 `;
 
 
+
 export default class BottomNav extends Component {
+
+    state = {
+        isClicked: false,
+    }
+
+    handleClick = () => {
+        this.setState({
+            isClicked: true
+        })
+        console.log('running')
+    }
+
     render() {
         return (
             <div>
                 <HomeButton></HomeButton>
-                <GameButton></GameButton>
+                <GameButton 
+                onClick={this.handleClick}
+                />
             </div>
         )
     }
