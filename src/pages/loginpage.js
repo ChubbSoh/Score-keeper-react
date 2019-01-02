@@ -66,12 +66,14 @@ export default class Login extends Component {
             }
         };
 
-        axios.post('http://localhost:5000/api/v1/login', { user }, config)
+        axios.post('https://sc0re.herokuapp.com/api/v1/login', { user }, config)
             .then(result => {
-                console.log(result.data.token)
-                localStorage.setItem('jwt', result.data.token)
+                console.log(result)
+                localStorage.setItem('jwt', result.data.auth_token)
                 this.props.history.push("/home")
-            });
+            }).catch(error =>
+                console.log("ERROR", error)
+            )
     }
 
     render() {

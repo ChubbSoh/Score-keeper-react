@@ -72,7 +72,7 @@ export default class Signup extends Component {
                 'Access-Control-Allow-Origin': '*'
             }
         };
-        axios.post('http://localhost:5000/api/v1/signup', { user }, config)
+        axios.post('https://sc0re.herokuapp.com/api/v1/signup', { user }, config)
             .then(result => {
                 // Log in after succesful sign up
                 localStorage.setItem('jwt', result.data.token)

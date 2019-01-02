@@ -5,7 +5,6 @@ import Toggle from 'react-toggle';
 import "react-toggle/style.css";
 import './newgame.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 
 const GameForm = styled.div`
@@ -49,6 +48,9 @@ export default class NewGame extends Component {
         })
     }
 
+    getToken() {
+        return localStorage.getItem('jwt')
+    }
 
     handleSubmit = event => {
         event.preventDefault();
@@ -59,16 +61,25 @@ export default class NewGame extends Component {
             timerMinPerRound: this.state.timerMinPerRound,
             timerMinPerGame: this.state.timerMinPerGame,
         }
-        console.log(game)
         var config = {
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Authorization': `Bearer ${this.getToken()}`
             }
         };
-        axios.post('http://localhost:5000/api/v1/newgame', { game }, config)
-            .then(result => console.log(result));
+        axios.post('https://sc0re.herokuapp.com/api/v1/newgame', { game }, config)
+            .then(result => {
+                console.log(result)
+                this.props.history.push("/camera")
+            }).catch(error =>
+                console.log("ERROR", error)
+            )
     }
+
+    closeButton = () => (
+        this.props.history.push("/home")
+    )
+
 
     render() {
         const timerDiv = this.state.timerChecked
@@ -91,7 +102,7 @@ export default class NewGame extends Component {
             <GameForm>
                 <div id="NewGame">
                     <div className="Row">
-                        <GameHeader>New game<Button style={{ color: '#FFF' }} close />
+                        <GameHeader>New game<Button style={{ color: '#FFF' }} onClick={this.closeButton} close />
                         </GameHeader>
                         <br />
                     </div>
@@ -126,14 +137,15 @@ export default class NewGame extends Component {
                             /> <span>timer</span>
                         </TimerLabel>
                         {timerDiv}
+                        <FormGroup>
+                            <Input
+                                type='submit'
+                                value='save game'
+                                disabled={!enabled}
+                                style={{ width: '100%', background: '#0CB18F', color: 'white' }}
+                            />
+                        </FormGroup>
                     </Form>
-                    <Link to={{ pathname: '/camera' }}>
-                        <Button
-                            attribute='NewGame'
-                            type="submit" style={{ width: '100%', background: '#0CB18F' }}
-                            disabled={!enabled}
-                        >save game</Button>
-                    </Link>
                 </div>
             </GameForm >
         )
