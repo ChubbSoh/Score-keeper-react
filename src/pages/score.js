@@ -68,6 +68,7 @@ const PlayerAvatar = styled.img`
           transform: translate(-50%,-50%);
 `;
 
+
 const checkPlayer = Component => props => {
     if (props.location.player) {
         return <Component {...props} />

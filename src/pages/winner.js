@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+
 
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
@@ -97,11 +99,31 @@ class Winner extends Component {
             player: this.props.location.player,
             saveGame: false,
         }
+        console.log(this.props.location.player)
+    }
+
+    getToken() {
+        return localStorage.getItem('jwt')
     }
 
     saveGame = event => {
         event.preventDefault()
-        this.props.history.push('/home')
+        const id = this.props.gameId
+        const gamelog = {
+            game_id: id.toString(),
+            scores: this.state.player,
+        };
+        var config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getToken()}`
+            }
+        };
+        axios.post('https://sc0re.herokuapp.com/api/v1/gamelog', { gamelog }, config)
+            .then(result => {
+                console.log(result)
+                this.props.history.push("/home")
+            });
     }
 
     render() {

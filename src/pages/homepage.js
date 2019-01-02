@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const GameContainer = styled.div`
     background: #070B2E;
-    padding: 70px 25px 0 25px;
+    padding: 70px 15px 0 15px;
     height: 100vh;
     width: 100%;    
     overflow-y: scroll;
@@ -14,24 +15,24 @@ const ImgContainer = styled.div`
     overflow: hidden;
     width: 150px;
     height: 150px;
-    background: rgba(7,11,46, 0.5);
+    background: #ABABAB;
     border-radius: 5px; 
-    margin: 0 15px 20px 15px;
+    margin: 0 10px 20px 10px;
     display: inline-block;
     position: relative;
     flex: 1;
 `;
 
-const GameImg = styled.img`
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height:100%;
-    width: auto;
-    -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
-`;
+// const GameImg = styled.img`
+//     position: absolute;
+//     left: 50%;
+//     top: 50%;
+//     height:100%;
+//     width: auto;
+//     -webkit-transform: translate(-50%,-50%);
+//       -ms-transform: translate(-50%,-50%);
+//           transform: translate(-50%,-50%);
+// `;
 
 const GameName = styled.div`
     display: flex;
@@ -57,31 +58,75 @@ const AddNewGame = styled.button`
     border: none; 
 `;
 
+const GameCard = ({ game, setGameId, redirect }) => {
+    const {
+        id,
+        gameName,
+        scorePerPoint,
+        TimerMinPerRound,
+        TimerMinPerGame
+    } = game
+
+
+    const handleClick = () => {
+        setGameId(id)
+        redirect({
+            pathname: '/game',
+            game,
+        })
+    }
+
+    return (
+        <ImgContainer onClick={handleClick}>
+            <GameName>{gameName}</GameName>
+        </ImgContainer>
+    )
+}
 
 class Homepage extends Component {
-    state = {
-        clicked: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            games: [],
+        }
     }
 
-    handleClick = () => {
-        this.props.history.push('/scrabble')
+    componentDidMount() {
+        axios({
+            method: 'get',
+            url: 'https://sc0re.herokuapp.com/api/v1/games',
+        }).then(result => {
+            console.log(result);
+            const games = result.data;
+            this.setState({
+                games: games
+            })
+        }).catch(error =>
+            console.log("ERROR", error)
+        )
     }
+
+    // handleClick = index => {
+    //     const copyGames = this.state.games
+    //     const selectedGame = copyGames[index]
+    //     console.log(selectedGame)
+    //     this.props.setGameId()
+    //     this.props.history.push({
+    //         pathname: '/game',
+    //         games: selectedGame
+    //     })
+    // }
+
     render() {
         return (
             <div>
                 <GameContainer>
-                    <ImgContainer>
-                        <GameImg src='img/pingpong.jpg' alt='ping-pong' />
-                        <GameName>Ping Pong</GameName>
-                    </ImgContainer>
-                    <ImgContainer>
-                        <GameImg src='img/basketball.jpg' alt='basketball' />
-                        <GameName>Basketball</GameName>
-                    </ImgContainer>
-                    <ImgContainer onClick={this.handleClick}>
-                        <GameImg src='img/scrabble.jpg' alt='scrabble' />
-                        <GameName>Scrabble</GameName>
-                    </ImgContainer>
+                    {
+                        this.state.games.map((game, index) =>
+                            <GameCard key={index} game={game} setGameId={this.props.setGameId} redirect={this.props.history.push} />
+
+                        )
+                    }
                 </GameContainer>
                 <Link to={{ pathname: '/newgame' }}>
                     <AddNewGame><img src='/icon/add-icon.png' alt='add-icon' /></AddNewGame>
@@ -92,3 +137,23 @@ class Homepage extends Component {
 }
 
 export default Homepage;
+
+// render() {
+//     return (
+//         <div>
+//             <GameContainer>
+//                 {
+//                     this.state.games.map((game, index) =>
+//                         <ImgContainer id={index} key={index} onClick={this.handleClick.bind(this, index)}>
+//                             <GameName>{game.gameName}</GameName>
+//                         </ImgContainer>
+//                     )
+//                 }
+//             </GameContainer>
+//             <Link to={{ pathname: '/newgame' }}>
+//                 <AddNewGame><img src='/icon/add-icon.png' alt='add-icon' /></AddNewGame>
+//             </Link>
+//         </div>
+//     )
+// }
+// }

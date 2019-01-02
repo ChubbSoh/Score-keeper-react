@@ -16,7 +16,7 @@ import SideNav from './components/sidebar';
 import BottomNav from './components/bottom-nav';
 import Backdrop from './components/backdrop';
 import Winner from './pages/winner';
-import Scrabble from './pages/scrabble';
+import Game from './pages/game';
 
 class App extends Component {
   constructor(props) {
@@ -24,9 +24,12 @@ class App extends Component {
     const { pathname } = this.props.location;
     this.state = {
       sideNavOpen: false,
-      navHidden: pathname === '/' || pathname === '/login' || pathname === '/signup'
+      navHidden: pathname === '/' || pathname === '/login' || pathname === '/signup',
+      gameId: null
     }
   }
+
+  setGameId = id => this.setState({ gameId: id })
 
   componentDidMount() {
     this.unlisten = this.props.history.listen(location => {
@@ -74,13 +77,13 @@ class App extends Component {
           <Route navHidden exact path='/' render={() => <Redirect to='/login' />} />
           <Route navHidden exact path='/login' component={LoginPage} />
           <Route navHidden exact path="/signup" component={Signup} />
-          <Route exact path="/home" component={Homepage} />
+          <Route exact path="/home" component={props => <Homepage setGameId={this.setGameId} {...props} />} />
           <Route exact path="/newgame" component={NewGame} />
           <Route exact path="/startgame" component={Score} />
           <Route exact path="/players" component={AddPlayer} />
           <Route exact path="/camera" component={Camera} />
-          <Route exact path="/winner" component={Winner} />
-          <Route exact path="/scrabble" component={Scrabble} />
+          <Route exact path="/winner" component={props => <Winner gameId={this.state.gameId} {...props} />} />
+          <Route exact path="/game" component={Game} />
         </Switch>
       </div>
     )
