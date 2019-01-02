@@ -62,9 +62,6 @@ const GameCard = ({ game, setGameId, redirect }) => {
     const {
         id,
         gameName,
-        scorePerPoint,
-        TimerMinPerRound,
-        TimerMinPerGame
     } = game
 
 
@@ -106,17 +103,6 @@ class Homepage extends Component {
         )
     }
 
-    // handleClick = index => {
-    //     const copyGames = this.state.games
-    //     const selectedGame = copyGames[index]
-    //     console.log(selectedGame)
-    //     this.props.setGameId()
-    //     this.props.history.push({
-    //         pathname: '/game',
-    //         games: selectedGame
-    //     })
-    // }
-
     render() {
         return (
             <div>
@@ -137,23 +123,3 @@ class Homepage extends Component {
 }
 
 export default Homepage;
-
-// render() {
-//     return (
-//         <div>
-//             <GameContainer>
-//                 {
-//                     this.state.games.map((game, index) =>
-//                         <ImgContainer id={index} key={index} onClick={this.handleClick.bind(this, index)}>
-//                             <GameName>{game.gameName}</GameName>
-//                         </ImgContainer>
-//                     )
-//                 }
-//             </GameContainer>
-//             <Link to={{ pathname: '/newgame' }}>
-//                 <AddNewGame><img src='/icon/add-icon.png' alt='add-icon' /></AddNewGame>
-//             </Link>
-//         </div>
-//     )
-// }
-// }
