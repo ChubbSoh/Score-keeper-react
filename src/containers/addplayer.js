@@ -43,6 +43,15 @@ export default class AddPlayer extends Component {
         addPlayerClicked: false,
     }
 
+    componentDidMount() {
+        this.setState({
+            player: this.props.location.state.faces.map( face => ({
+                name: '',
+                ...face
+            }))
+        })
+    }
+
     addPlayer = event => {
         event.preventDefault();
         this.setState((prevState) => ({

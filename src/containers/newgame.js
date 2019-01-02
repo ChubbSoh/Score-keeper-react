@@ -135,7 +135,7 @@ export default class NewGame extends Component {
                         >save game</Button>
                     </Link>
                 </div>
-            </GameForm >
+            </GameForm>
         )
     }
 };

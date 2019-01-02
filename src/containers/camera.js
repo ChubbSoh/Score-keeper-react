@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 const CameraButton = styled.label`
     width: 250px;
@@ -34,7 +34,6 @@ const InnerContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-       
 `;
 
 const AddManually = styled.button`
@@ -57,9 +56,7 @@ const CameraIcon = styled.img`
 
 export default class Camera extends Component {
     state = {
-        file: null,
         img: null,
-        result: [],
         imgHeight: 0,
         imgWidth: 0,
     }
@@ -76,7 +73,6 @@ export default class Camera extends Component {
         }
 
         this.setState({
-            file,
             img: img.src
         })
         this.callAPI(file)
@@ -85,7 +81,7 @@ export default class Camera extends Component {
     callAPI = (file) => {
         const bodyFormData = new FormData();
         bodyFormData.append('image_file', file)
-        Axios({
+        axios({
             url: "https://api-us.faceplusplus.com/facepp/v3/detect",
             method: "POST",
             params: {
@@ -95,9 +91,19 @@ export default class Camera extends Component {
             data: bodyFormData
         })
         .then(res => {
-            console.log(res.data)
-            console.log(res.data.faces)
+            const { img, imgHeight, imgWidth } = this.state
+            this.props.history.push('/players', {
+                img,
+                faces: res.data.faces.map(({face_rectangle}) => ({
+                    fromTop: face_rectangle.top,
+                    fromRight: imgWidth-face_rectangle.left-face_rectangle.width,
+                    fromBottom: imgHeight-face_rectangle.top-face_rectangle.height,
+                    fromLeft: face_rectangle.left,
+                }))
+            })
         })
+            
+        
         .catch(err => {
             console.log(err)
         })
@@ -110,7 +116,11 @@ export default class Camera extends Component {
                     <Header>Add players</Header>
                     <br />
                     <InnerContainer>
-                        <CameraButton>Take a wefie!
+                        <CameraButton>
+                                <div>
+                                    <CameraIcon src='icon/camera-icon.svg' />
+                                    Take a wefie!
+                                </div>
                                 <Input onChange={this.handleInput} type="file" accept="image/*" capture="user" />
                         </CameraButton>
                     </InnerContainer>
