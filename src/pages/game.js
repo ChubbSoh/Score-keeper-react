@@ -11,12 +11,20 @@ const OuterContainer = styled.div`
 `;
 
 const GameHeader = styled.div`
-    font-size: 32px;
+    font-size: 22px;
     margin-bottom: 10px;
+    background: #373D65;
+    padding: 20px;
+    margin: 10px 5px 10px 5px;
+    border-radius: 5px;
 `;
 
 const GameDiv = styled.div`
-    font-size: 20px;
+    font-size: 16px;
+    background: #373D65;
+    padding: 20px;
+    margin: 20px 5px 10px 5px;
+    border-radius: 5px;
 `;
 
 const StartGameBtn = styled.button`
@@ -26,7 +34,7 @@ const StartGameBtn = styled.button`
     border: none;
     color: #FFF;
     border-radius: 5px;
-    margin-top: 25px;   
+    margin-top: 10px;   
 `;
 
 const checkGame = Component => props => {

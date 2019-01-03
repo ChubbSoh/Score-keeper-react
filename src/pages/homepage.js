@@ -58,18 +58,21 @@ const AddNewGame = styled.button`
     border: none; 
 `;
 
-const GameCard = ({ game, setGameId, redirect }) => {
+const GameCard = ({ game, setGameId, redirect, setGameTimer }) => {
     const {
         id,
         gameName,
+        timerMinPerRound,
+        timerMinPerGame
     } = game
 
 
     const handleClick = () => {
         setGameId(id)
+        setGameTimer(timerMinPerRound, timerMinPerGame)
         redirect({
             pathname: '/game',
-            game,
+            game
         })
     }
 
@@ -109,15 +112,20 @@ class Homepage extends Component {
                 <GameContainer>
                     {
                         this.state.games.map((game, index) =>
-                            <GameCard key={index} game={game} setGameId={this.props.setGameId} redirect={this.props.history.push} />
-
+                            <GameCard
+                                key={index}
+                                game={game}
+                                setGameId={this.props.setGameId}
+                                setGameTimer={this.props.setGameTimer}
+                                redirect={this.props.history.push}
+                            />
                         )
                     }
                 </GameContainer>
                 <Link to={{ pathname: '/newgame' }}>
                     <AddNewGame><img src='/icon/add-icon.png' alt='add-icon' /></AddNewGame>
                 </Link>
-            </div>
+            </div >
         )
     }
 }

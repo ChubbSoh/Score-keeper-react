@@ -25,11 +25,16 @@ class App extends Component {
     this.state = {
       sideNavOpen: false,
       navHidden: pathname === '/' || pathname === '/login' || pathname === '/signup',
-      gameId: null
+      gameId: null,
+      timePerRound: null,
+      timePerGame: null,
     }
   }
 
   setGameId = id => this.setState({ gameId: id })
+
+  setGameTimer = (timerMinPerRound, timerMinPerGame) =>
+    this.setState({ timePerRound: timerMinPerRound, timePerGame: timerMinPerGame })
 
   componentDidMount() {
     this.unlisten = this.props.history.listen(location => {
@@ -77,9 +82,9 @@ class App extends Component {
           <Route navHidden exact path='/' render={() => <Redirect to='/login' />} />
           <Route navHidden exact path='/login' component={LoginPage} />
           <Route navHidden exact path="/signup" component={Signup} />
-          <Route exact path="/home" component={props => <Homepage setGameId={this.setGameId} {...props} />} />
+          <Route exact path="/home" component={props => <Homepage setGameId={this.setGameId} setGameTimer={this.setGameTimer} {...props} />} />
           <Route exact path="/newgame" component={NewGame} />
-          <Route exact path="/startgame" component={Score} />
+          <Route exact path="/startgame" component={props => <Score timePerRound={this.state.timePerRound} timePerGame={this.state.timePerGame} {...props} />} />
           <Route exact path="/players" component={AddPlayer} />
           <Route exact path="/camera" component={Camera} />
           <Route exact path="/winner" component={props => <Winner gameId={this.state.gameId} {...props} />} />

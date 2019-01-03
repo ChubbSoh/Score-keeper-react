@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import formatDuration from 'format-duration';
 
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
@@ -68,6 +69,21 @@ const PlayerAvatar = styled.img`
           transform: translate(-50%,-50%);
 `;
 
+const TimerDiv = styled.div`
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+`;
+
+const TimerButton = styled.button`
+    background: #0CB18F;
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+`;
+
 
 const checkPlayer = Component => props => {
     if (props.location.player) {
@@ -77,13 +93,36 @@ const checkPlayer = Component => props => {
     }
 }
 
+const Timer = props => {
+    let elapsed = props.gameTime * 60000
+    let events = props.events
+
+    for (let i = 0; i < events.length; i += 2) {
+        const start = events[i]
+        const stop = events[i + 1] || Date.now()
+        elapsed -= stop - start
+    }
+    return (
+        <div>
+            Time Per Game: {formatDuration(elapsed)}
+        </div>
+    )
+
+
+}
+
+
 class Score extends Component {
     constructor(props) {
         super(props);
         this.state = {
             player: this.props.location.player.map((player) => ({ name: player.name, score: 0 })),
-
+            timePerRound: props.timePerRound,
+            timePerGame: props.timePerGame,
+            timingEvents: [],
+            nonce: 0,
         }
+        this.poll = setInterval(this.tick, 1000)
     }
 
     addScore = event => {
@@ -115,15 +154,35 @@ class Score extends Component {
         })
     }
 
+    timerClicked = () => {
+        this.setState({
+            timingEvents: [...this.state.timingEvents, Date.now()]
+        })
+    }
+
+    tick = () => {
+        this.setState((prevState) => ({
+            nonce: prevState.nonce - 1
+        }))
+    }
+
     render() {
         const newPlayers = [...this.state.player]
         const sortedPlayers = newPlayers.sort((a, b) =>
             b.score - a.score
         );
 
+        const label = this.state.timingEvents.length % 2 === 0
+            ? 'start'
+            : 'pause'
+
         return (
             <div>
                 <OuterContainer>
+                    <TimerDiv>
+                        <Timer events={this.state.timingEvents} gameTime={this.state.timePerGame} />
+                        <TimerButton onClick={this.timerClicked}>{label}</TimerButton>
+                    </TimerDiv>
                     {
                         sortedPlayers.map((player, index) =>
                             <PlayerCard key={index}>
