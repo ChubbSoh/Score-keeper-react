@@ -11,7 +11,7 @@ const Sidebar = styled.div`
   z-index: 3;
   color: white;
   padding: 20px;
-  
+
 `;
 
 const SideList = styled.ul`
@@ -27,13 +27,18 @@ const ListItem = styled.li`
 const ProfilePic = styled.img`
   width: 60px;
   height: 60px;
-  border-radius: 30px;  
+  border-radius: 30px;
   background: #373D65;
   border: none;
   margin-right: 15px;
 `;
 
 class SideNav extends Component {
+  logout = () => {
+    localStorage.removeItem('jwt')
+    window.location.href = '/'
+  }
+
   render() {
     return (
       <div>
@@ -46,7 +51,7 @@ class SideNav extends Component {
             <ListItem>Profile</ListItem>
             <ListItem>Past Games</ListItem>
             <ListItem>Settings</ListItem>
-            <ListItem>Logout</ListItem>
+            <ListItem onClick={this.logout}>Logout</ListItem>
           </SideList>
         </Sidebar>
       </div>
