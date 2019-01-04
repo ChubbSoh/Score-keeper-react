@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
-import formatDuration from 'format-duration';
 
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
@@ -92,26 +91,6 @@ const checkPlayer = Component => props => {
         return <Redirect to={'/players'} />
     }
 }
-
-const Timer = props => {
-    let elapsed = props.gameTime * 60000
-    let events = props.events
-
-    for (let i = 0; i < events.length; i += 2) {
-        const start = events[i]
-        const stop = events[i + 1] || Date.now()
-        elapsed -= stop - start
-    }
-    return (
-        <div>
-            Time Per Game: {formatDuration(elapsed)}
-        </div>
-    )
-
-
-}
-
-
 class Score extends Component {
     constructor(props) {
         super(props);
@@ -119,10 +98,20 @@ class Score extends Component {
             player: this.props.location.player.map((player) => ({ name: player.name, score: 0 })),
             timePerRound: props.timePerRound,
             timePerGame: props.timePerGame,
-            timingEvents: [],
-            nonce: 0,
+            isPaused: true
         }
-        this.poll = setInterval(this.tick, 1000)
+        this.poll = null
+    }
+
+    pause = () => { clearInterval(this.poll) }
+
+    start = () => { this.poll = setInterval(this.tick, 1000) }
+
+    tick = () => {
+        this.setState({ timePerGame: this.state.timePerGame - 1 })
+        if (this.state.seconds <= 0) {
+            this.pause()
+        }
     }
 
     addScore = event => {
@@ -155,15 +144,14 @@ class Score extends Component {
     }
 
     timerClicked = () => {
+        if (this.state.isPaused) {
+            this.start()
+        } else {
+            this.pause()
+        }
         this.setState({
-            timingEvents: [...this.state.timingEvents, Date.now()]
+            isPaused: !this.state.isPaused
         })
-    }
-
-    tick = () => {
-        this.setState((prevState) => ({
-            nonce: prevState.nonce - 1
-        }))
     }
 
     render() {
@@ -172,17 +160,21 @@ class Score extends Component {
             b.score - a.score
         );
 
-        const label = this.state.timingEvents.length % 2 === 0
-            ? 'start'
-            : 'pause'
+        const timer = this.state.timePerGame
+            ? <TimerDiv>
+                {
+                    this.state.seconds <= 0
+                        ? <div>Game has Ended!</div>
+                        : <div>Time Per Game: {this.state.timePerGame}</div>
+                }
+                <TimerButton onClick={this.timerClicked}>{this.state.isPaused ? 'start' : 'pause'}</TimerButton>
+            </TimerDiv>
+            : null;
 
         return (
             <div>
                 <OuterContainer>
-                    <TimerDiv>
-                        <Timer events={this.state.timingEvents} gameTime={this.state.timePerGame} />
-                        <TimerButton onClick={this.timerClicked}>{label}</TimerButton>
-                    </TimerDiv>
+                    {timer}
                     {
                         sortedPlayers.map((player, index) =>
                             <PlayerCard key={index}>
