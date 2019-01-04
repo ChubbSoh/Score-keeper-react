@@ -9,8 +9,8 @@ const OuterContainer = styled.div`
     align-items: center;
     justify-content: center;
     background: #070B2E;
-    height: 100vh;  
-    padding: 0 20px 0 20px;  
+    height: 100vh;
+    padding: 0 20px 0 20px;
 `;
 
 const Header = styled.div`
@@ -29,6 +29,7 @@ export default class Login extends Component {
             password: "",
             emailError: "",
             passwordError: "",
+            loading: false,
         };
     }
 
@@ -43,6 +44,7 @@ export default class Login extends Component {
             this.setState({
                 email: this.state.email,
                 password: this.state.password,
+                loading: true,
             })
         } else {
             this.setState({
@@ -68,12 +70,15 @@ export default class Login extends Component {
 
         axios.post('https://sc0re.herokuapp.com/api/v1/login', { user }, config)
             .then(result => {
-                console.log(result)
+              console.log(result)
+              this.setState({loading: false})
                 localStorage.setItem('jwt', result.data.auth_token)
                 this.props.history.push("/home")
-            }).catch(error =>
-                console.log("ERROR", error)
-            )
+            })
+            .catch(error => {
+              console.log("ERROR", error)
+              this.setState({loading: false})
+            })
     }
 
     render() {
@@ -111,7 +116,7 @@ export default class Login extends Component {
                                 <Input
                                     type="submit"
                                     name="login"
-                                    value="Login"
+                                    value={this.state.loading ? 'Logging In...' : 'Log In'}
                                     disabled={!enabled}
                                 />
                             </FormGroup>
