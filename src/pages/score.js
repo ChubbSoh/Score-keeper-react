@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
     background: #070B2E;
-    height: 100vh;    
+    height: 100vh;
 `;
 
 const PlayerCard = styled.div`
@@ -30,13 +30,21 @@ const ScoreDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 20%;    
+    width: 20%;
 `;
 
 const ScoreButton = styled.button`
-    background: transparent;
+    background: #070a30;
+    height: 15px;
+    width: 15px;
     color: white;
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 13px;
+    font-size: 13px;
 `;
 
 const EndButton = styled.button`
@@ -86,6 +94,7 @@ const TimerButton = styled.button`
 
 const checkPlayer = Component => props => {
     if (props.location.player) {
+        console.log(props.location.player)
         return <Component {...props} />
     } else {
         return <Redirect to={'/players'} />
@@ -95,7 +104,7 @@ class Score extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            player: this.props.location.player.map((player) => ({ name: player.name, score: 0 })),
+            player: this.props.location.player.map((player) => ({ ...player, score: 0 })),
             timePerRound: props.timePerRound,
             timePerGame: props.timePerGame,
             isPaused: true
@@ -180,13 +189,13 @@ class Score extends Component {
                             <PlayerCard key={index}>
                                 <PlayerLabel>
                                     <AvatarContainer>
-                                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                                        <PlayerAvatar src={player.avatar}></PlayerAvatar>
                                     </AvatarContainer>
                                     {player.name}
                                 </PlayerLabel>
                                 <ScoreDiv>
                                     <ScoreButton id={index} onClick={this.minusScore}>-</ScoreButton>
-                                    {player.score}
+                                    <span style={{margin: '0 7px'}}>{player.score}</span>
                                     <ScoreButton id={index} onClick={this.addScore}>+</ScoreButton>
                                 </ScoreDiv>
                             </PlayerCard>

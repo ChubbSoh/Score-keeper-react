@@ -7,7 +7,7 @@ import axios from 'axios';
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
     background: #070B2E;
-    height: 100vh;    
+    height: 100vh;
 `;
 
 const TrophyDiv = styled.div`
@@ -17,8 +17,8 @@ const TrophyDiv = styled.div`
     margin: 10px 0 10px 0;
 `;
 
-const PlayerCard = styled.div`    
-    background-color: #373D65;    
+const PlayerCard = styled.div`
+    background-color: #373D65;
     width: 100%;
     color: white;
     padding: 16px;
@@ -48,9 +48,9 @@ const PlayerLabel = styled.label`
 `;
 
 const ScoreDiv = styled.div`
-    display: flex;     
+    display: flex;
     width: 15%;
-    justify-content: space-around;    
+    justify-content: space-around;
 `;
 
 const SaveButton = styled.button`
@@ -137,7 +137,7 @@ class Winner extends Component {
             <Bronze>
                 <PlayerLabel>
                     <AvatarContainer>
-                        <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                        <PlayerAvatar src={sortedPlayers[2].avatar}></PlayerAvatar>
                     </AvatarContainer>
                     {sortedPlayers[2].name}
                 </PlayerLabel>
@@ -155,7 +155,7 @@ class Winner extends Component {
                 <Gold>
                     <PlayerLabel>
                         <AvatarContainer>
-                            <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                            <PlayerAvatar src={sortedPlayers[0].avatar}></PlayerAvatar>
                         </AvatarContainer>
                         {sortedPlayers[0].name}
                     </PlayerLabel>
@@ -166,7 +166,7 @@ class Winner extends Component {
                 <Silver>
                     <PlayerLabel>
                         <AvatarContainer>
-                            <PlayerAvatar src='/icon/profile-icon.svg'></PlayerAvatar>
+                            <PlayerAvatar src={sortedPlayers[1].avatar}></PlayerAvatar>
                         </AvatarContainer>
                         {sortedPlayers[1].name}
                     </PlayerLabel>

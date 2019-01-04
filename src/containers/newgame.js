@@ -85,12 +85,8 @@ export default class NewGame extends Component {
         const timerDiv = this.state.timerChecked
             ? <div>
                 <InputGroup className="timerInput">
-                    <Input name="timerMinPerRound" id="timerMinPerRound" onChange={this.handleChange} placeholder="0" />
-                    <InputGroupAddon addonType="append" >min per round</InputGroupAddon>
-                </InputGroup>
-                <InputGroup className="timerInput">
                     <Input name="timerMinPerGame" id="timerMinPerGame" onChange={this.handleChange} placeholder="0" />
-                    <InputGroupAddon addonType="append" >min per game</InputGroupAddon>
+                    <InputGroupAddon addonType="append" >Minute per game</InputGroupAddon>
                 </InputGroup>
                 <br />
             </div>

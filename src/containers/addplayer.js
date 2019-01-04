@@ -2,6 +2,26 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Form, FormGroup, Input, Button, InputGroup, InputGroupAddon } from 'reactstrap';
 
+const AvatarContainer = styled.div`
+    width: 35px;
+    height: 35px;
+    border-radius: 15px;
+    margin-right: 10px;
+    overflow: hidden;
+    position: relative;
+`;
+
+const PlayerAvatar = styled.img`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height:100%;
+    width: auto;
+    -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+`;
+
 const Header = styled.div`
     color: #FFF;
     font-size: 20px;
@@ -30,116 +50,98 @@ const StartGameBtn = styled.button`
     background: #0CB18F;
     border: none;
     color: #FFF;
-    border-radius: 5px;    
+    border-radius: 5px;
     margin-top: 10px;
 `;
 
 export default class AddPlayer extends Component {
     state = {
-        player: [
+        players: [
             { name: '' },
             { name: '' },
         ],
-        addPlayerClicked: false,
+    }
+
+    componentDidMount() {
+        if (this.props.location.state) {
+          const { faces, imagePublicId } = this.props.location.state
+          this.setState({
+              players: faces.map((face, index) => ({
+                  name: `Player ${index + 1}`,
+                  avatar: `http://res.cloudinary.com/liren/image/upload/c_crop,h_${face.height},w_${face.width},x_${face.left},y_${face.top}/${imagePublicId}`,
+              }))
+          })
+        }
     }
 
     addPlayer = event => {
         event.preventDefault();
         this.setState((prevState) => ({
-            player: [...prevState.player, { name: '', avatar: {} }],
-            addPlayerClicked: true,
+            players: [...prevState.players, { name: '' } ],
         }));
     }
 
     removePlayer = index => {
-        const copyPlayer = Object.assign([], this.state.player);
-        copyPlayer.splice(index, 1);
+        const copyPlayers = Object.assign([], this.state.players);
+        copyPlayers.splice(index, 1);
         this.setState({
-            player: copyPlayer,
+            players: copyPlayers,
         })
     }
 
     handleChange = event => {
-        const currentPlayer = this.state.player
-        currentPlayer[event.target.id] = { name: event.target.value }
+        // TO BE FIXED. MUST NOT MUTATE STATE
+        const { players } = this.state
+        players[event.target.id]['name'] = event.target.value
         this.setState({
-            player: currentPlayer,
+            players
         });
     }
 
-    validateForm = () => {
-        const getName = this.state.player;
-        if (getName.forEach((player) =>
-            !player.name === ''
-        )) {
-            this.startGame()
-        }
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-        // this.validateForm();
-    }
 
     startGame = () => {
         this.props.history.push({
             pathname: '/startgame',
-            player: this.state.player
+            player: this.state.players
         })
     }
 
     render() {
-        let { player } = this.state;
-        const [, , ...newPlayer] = player;
-        const newPlayerDiv = this.state.addPlayerClicked
-            ? newPlayer.map((player, index) => {
-                return (
-                    <FormGroup key={index}>
-                        <InputGroup>
-                            <Input
-                                type='text'
-                                name='playerName'
-                                id={index + 2}
-                                placeholder='name'
-                                onChange={this.handleChange}
-                                value={player.name}
-                            />
-                            <InputGroupAddon addonType='prepend'>
-                                <Button onClick={this.removePlayer.bind(this, index)} >remove</Button>
-                            </InputGroupAddon>
-                        </InputGroup>
-                    </FormGroup>
-                )
-            })
-            : null;
+        const { players } = this.state
 
         return (
             <div>
                 <OuterContainer>
                     <Header>Add players</Header>
                     <br />
-                    <Form id='playerForm' onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Input
-                                type='text'
-                                name='playerName'
-                                id={0}
-                                placeholder='name'
-                                onChange={this.handleChange}
-                                value={player[0].name}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Input
-                                type='text'
-                                name='playerName'
-                                id={1}
-                                placeholder='name'
-                                onChange={this.handleChange}
-                                value={player[1].name}
-                            />
-                        </FormGroup>
-                        {newPlayerDiv}
+                    <Form id='playerForm'>
+                        {
+                          players.map(({name, avatar}, index) => {
+                              return (
+                                  <FormGroup key={index}>
+                                      <InputGroup>
+                                          {
+                                            (avatar && this.props.location.state) &&
+                                            <AvatarContainer>
+                                                <PlayerAvatar src={avatar}></PlayerAvatar>
+                                            </AvatarContainer>
+
+                                          }
+                                          <Input
+                                              type='text'
+                                              id={index}
+                                              placeholder='name'
+                                              onChange={this.handleChange}
+                                              value={name}
+                                          />
+                                          <InputGroupAddon addonType='prepend'>
+                                              <Button onClick={this.removePlayer.bind(this, index)} >remove</Button>
+                                          </InputGroupAddon>
+                                      </InputGroup>
+                                  </FormGroup>
+                              )
+                          })
+                        }
                         <AddPlayerButton onClick={this.addPlayer}>Add more players</AddPlayerButton>
                     </Form>
                     <StartGameBtn attribute='playerForm' type="submit" onClick={this.startGame}>Start game</StartGameBtn>
