@@ -123,7 +123,10 @@ class Winner extends Component {
             .then(result => {
                 console.log(result)
                 this.props.history.push("/home")
-            });
+            })
+            .catch(err => {
+                this.props.history.push("/home")
+            })
     }
 
     render() {
