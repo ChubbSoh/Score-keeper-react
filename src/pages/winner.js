@@ -122,7 +122,11 @@ class Winner extends Component {
         axios.post('https://sc0re.herokuapp.com/api/v1/gamelog', { gamelog }, config)
             .then(result => {
                 console.log(result)
-                this.props.history.push("/home")
+                this.props.history.push({
+                    pathname: "/home",
+                    // gameId: this.props.gameId,
+                    // scores: this.state.player,
+                })
             });
     }
 

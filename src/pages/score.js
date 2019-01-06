@@ -98,7 +98,8 @@ class Score extends Component {
             player: this.props.location.player.map((player) => ({ name: player.name, score: 0 })),
             timePerRound: props.timePerRound,
             timePerGame: props.timePerGame,
-            isPaused: true
+            isPaused: true,
+            transcript: ''
         }
         this.poll = null
     }
@@ -109,7 +110,7 @@ class Score extends Component {
 
     tick = () => {
         this.setState({ timePerGame: this.state.timePerGame - 1 })
-        if (this.state.seconds <= 0) {
+        if (this.state.timePerGame <= 0) {
             this.pause()
         }
     }
@@ -154,6 +155,20 @@ class Score extends Component {
         })
     }
 
+    // listenGame = () => {
+    //     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    //     const recognition = new window.webkitSpeechRecognition();
+    //     recognition.continous = true;
+    //     recognition.interimResults = true;
+
+    //     recognition.onresult = (event) => {
+    //         for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
+    //             const transcript = event.results[i][0].transcript;
+    //         }
+    //     }
+    //     recognition.start()
+    // }
+
     render() {
         const newPlayers = [...this.state.player]
         const sortedPlayers = newPlayers.sort((a, b) =>
@@ -162,11 +177,7 @@ class Score extends Component {
 
         const timer = this.state.timePerGame
             ? <TimerDiv>
-                {
-                    this.state.seconds <= 0
-                        ? <div>Game has Ended!</div>
-                        : <div>Time Per Game: {this.state.timePerGame}</div>
-                }
+                <div>Time Per Game: {this.state.timePerGame}</div>
                 <TimerButton onClick={this.timerClicked}>{this.state.isPaused ? 'start' : 'pause'}</TimerButton>
             </TimerDiv>
             : null;

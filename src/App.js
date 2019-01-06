@@ -17,6 +17,7 @@ import BottomNav from './components/bottom-nav';
 import Backdrop from './components/backdrop';
 import Winner from './pages/winner';
 import Game from './pages/game';
+import PastGames from './pages/pastgames';
 
 class App extends Component {
   constructor(props) {
@@ -89,6 +90,7 @@ class App extends Component {
           <Route exact path="/camera" component={Camera} />
           <Route exact path="/winner" component={props => <Winner gameId={this.state.gameId} {...props} />} />
           <Route exact path="/game" component={Game} />
+          <Route exact path="/pastgames" component={PastGames} />
         </Switch>
       </div>
     )
