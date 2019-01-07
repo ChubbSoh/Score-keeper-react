@@ -74,7 +74,7 @@ class Game extends Component {
         axios.post(`https://sc0re.herokuapp.com/api/v1/game/${id}`, config)
             .then(result => {
                 console.log(result)
-                // this.props.history.push("/home")
+                this.props.history.push("/home")
             })
             .catch(err => {
                 console.log(err)
