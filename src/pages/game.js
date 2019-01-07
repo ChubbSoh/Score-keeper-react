@@ -58,13 +58,22 @@ const checkGame = Component => props => {
 }
 
 class Game extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            game: this.props.location.game
+        };
+    }
+
     getToken() {
         return localStorage.getItem('jwt')
     }
 
     deleteGame = event => {
+        const { game } = this.state
+        const id = game.id
         event.preventDefault()
-        const id = this.props.location.game.id
         var config = {
             headers: {
                 'Content-Type': 'application/json',
