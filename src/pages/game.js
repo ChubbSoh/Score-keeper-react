@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+
 
 const OuterContainer = styled.div`
     padding: 70px 20px 70px 20px;
@@ -37,6 +39,16 @@ const StartGameBtn = styled.button`
     margin-top: 10px;   
 `;
 
+const DeleteBtn = styled.button`
+    padding: 10px;
+    width: 87vw;
+    background: #ABABAB;
+    border: none;
+    color: #FFF;
+    border-radius: 5px;
+    margin-top: 10px;   
+`;
+
 const checkGame = Component => props => {
     if (props.location.game) {
         return <Component {...props} />
@@ -46,6 +58,28 @@ const checkGame = Component => props => {
 }
 
 class Game extends Component {
+    getToken() {
+        return localStorage.getItem('jwt')
+    }
+
+    deleteGame = event => {
+        event.preventDefault()
+        const id = this.props.location.game.id
+        var config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.getToken()}`
+            }
+        };
+        axios.post(`https://sc0re.herokuapp.com/api/v1/game/${id}`, config)
+            .then(result => {
+                console.log(result)
+                // this.props.history.push("/home")
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     render() {
         let { game } = this.props.location;
@@ -67,6 +101,7 @@ class Game extends Component {
                 <Link to={'/camera'}>
                     <StartGameBtn>Start game</StartGameBtn>
                 </Link>
+                <DeleteBtn onClick={this.deleteGame}>Delete game</DeleteBtn>
             </OuterContainer>
         )
     }

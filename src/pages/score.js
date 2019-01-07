@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
 
 const OuterContainer = styled.div`
     padding: 70px 20px 0 20px;
@@ -106,7 +108,8 @@ class Score extends Component {
         this.state = {
             player: this.props.location.player.map((player) => ({ ...player, score: 0 })),
             timePerRound: props.timePerRound,
-            timePerGame: props.timePerGame,
+            timePerGame: props.timePerGame * 60,
+            timingEvents: [],
             isPaused: true
         }
         this.poll = null
@@ -118,7 +121,7 @@ class Score extends Component {
 
     tick = () => {
         this.setState({ timePerGame: this.state.timePerGame - 1 })
-        if (this.state.seconds <= 0) {
+        if (this.state.timePerGame <= 0) {
             this.pause()
         }
     }
@@ -169,13 +172,10 @@ class Score extends Component {
             b.score - a.score
         );
 
+        const gameTime = moment.duration(this.state.timePerGame, 'seconds').format('mm:ss');
         const timer = this.state.timePerGame
             ? <TimerDiv>
-                {
-                    this.state.seconds <= 0
-                        ? <div>Game has Ended!</div>
-                        : <div>Time Per Game: {this.state.timePerGame}</div>
-                }
+                <div>Time Per Game: {gameTime}</div>
                 <TimerButton onClick={this.timerClicked}>{this.state.isPaused ? 'start' : 'pause'}</TimerButton>
             </TimerDiv>
             : null;
@@ -195,7 +195,7 @@ class Score extends Component {
                                 </PlayerLabel>
                                 <ScoreDiv>
                                     <ScoreButton id={index} onClick={this.minusScore}>-</ScoreButton>
-                                    <span style={{margin: '0 7px'}}>{player.score}</span>
+                                    <span style={{ margin: '0 7px' }}>{player.score}</span>
                                     <ScoreButton id={index} onClick={this.addScore}>+</ScoreButton>
                                 </ScoreDiv>
                             </PlayerCard>
