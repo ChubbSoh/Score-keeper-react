@@ -6,8 +6,8 @@ import axios from 'axios';
 const GameContainer = styled.div`
     background: #070B2E;
     padding: 70px 15px 0 15px;
-    height: calc(100vh - 56px);
-    width: 100%;
+    height: 100vh;
+    width: 100%;    
     overflow-y: scroll;
 `;
 
@@ -16,7 +16,7 @@ const ImgContainer = styled.div`
     width: 120px;
     height: 120px;
     background: #ABABAB;
-    border-radius: 5px;
+    border-radius: 5px; 
     margin: 0 10px 20px 10px;
     display: inline-block;
     position: relative;
@@ -50,12 +50,12 @@ const AddNewGame = styled.button`
     position: fixed;
     width: 60px;
     height: 60px;
-    margin: 0 30px 80px 0;
+    margin: 0 30px 80px 0;    
     bottom: 0;
     right: 0;
     border-radius: 30px;
     background: #0CB18F;
-    border: none;
+    border: none; 
 `;
 
 const GameCard = ({ game, setGameId, redirect, setGameTimer }) => {
